@@ -1,7 +1,7 @@
 # Desarrollo incremental de DocuExtractoChat
 
 Fecha: 2026-10-09  
-Estado: planificación documentada. Ninguna fase de implementación está autorizada todavía.
+Estado: fase 1 implementada y verificada el 2026-10-09 tras autorización expresa. Fases 2–9 pendientes de autorización.
 
 **Objetivo:** desarrollar y comprobar el sistema en entregas pequeñas, conservando una aplicación utilizable y un historial Git claro después de cada fase.
 
@@ -28,7 +28,7 @@ Estado: planificación documentada. Ninguna fase de implementación está autori
 
 ## 2. Git desde el comienzo
 
-Git se inicializará como primera actividad de la fase 1, después de la aprobación del usuario. Esta actualización documental no inicializa Git ni crea commits todavía.
+Git se inicializó al comenzar la fase 1. La identidad local fue confirmada por el usuario y los avances se conservan con commits semánticos en inglés; no hay remoto configurado.
 
 ### Política
 
@@ -71,21 +71,21 @@ Estos son ejemplos de hitos, no una obligación de producir un commit por archiv
 
 ### Tareas
 
-- [ ] Inicializar Git, configurar `main`, crear exclusiones y confirmar la documentación inicial.
-- [ ] Crear un workspace npm con la aplicación `apps/web` en React, TypeScript y Vite; incluir lockfile, scripts de desarrollo, compilación y comprobación de tipos.
-- [ ] Documentar requisitos y comandos de ejecución en el README de la raíz. No inicializar NestJS, Python, PostgreSQL ni proveedores en esta fase.
-- [ ] Añadir Dockerfile por etapas y `.dockerignore` para compilar React y servir la previsualización con Nginx; crear Compose solo con ese servicio temporal. Documentar ejecución nativa para desarrollar y Docker para demostrar la entrega.
-- [ ] Crear una única página con selección accesible por botón y teclado, zona de drag and drop y estado visual al arrastrar.
-- [ ] Aceptar un archivo por selección. Si se arrastran varios, mostrar un error y conservar el archivo actual, sin elegir uno silenciosamente.
-- [ ] Mostrar nombre, tamaño y tipo; permitir quitar o reemplazar el archivo. Cancelar el selector conserva la selección anterior.
-- [ ] Validar formatos de esta fase y el límite de 50 MB antes de preparar la vista. Una selección rechazada conserva la vista anterior.
-- [ ] Mostrar PDF en el visor nativo del navegador mediante una URL local de objeto. Si el navegador no puede mostrarlo, ofrecer abrir el archivo local y explicar la limitación.
-- [ ] Mostrar PNG/JPEG como imagen ajustada al espacio disponible y TXT/Markdown como texto literal, sin ejecutar HTML. Para texto, mostrar como máximo el primer 1 MiB y advertir cuando se trate de una vista parcial.
-- [ ] Liberar URLs de objeto al reemplazar o quitar el archivo y al desmontar el visor; evitar que lecturas asíncronas anteriores sustituyan una selección más reciente.
-- [ ] Mostrar errores legibles ante archivo vacío, formato no admitido, exceso de tamaño o fallo de lectura/renderizado.
-- [ ] Verificar selección, reemplazo, eliminación, drag and drop, accesibilidad básica y adaptación a pantallas pequeñas.
-- [ ] Comprobar la compilación de producción, tamaño del frontend, respuesta de las acciones y memoria tras reemplazar diez archivos. Leer TXT/Markdown mediante un segmento de hasta 1 MiB, sin cargar antes el archivo completo.
-- [ ] Ejecutar compilación, comprobación de tipos y pruebas relevantes; registrar commits y presentar la demostración.
+- [x] Inicializar Git, configurar `main`, crear exclusiones y confirmar la documentación inicial.
+- [x] Crear un workspace npm con la aplicación `apps/web` en React, TypeScript y Vite; incluir lockfile, scripts de desarrollo, compilación y comprobación de tipos.
+- [x] Documentar requisitos y comandos de ejecución en el README de la raíz. No inicializar NestJS, Python, PostgreSQL ni proveedores en esta fase.
+- [x] Añadir Dockerfile por etapas y `.dockerignore` para compilar React y servir la previsualización con Nginx; crear Compose solo con ese servicio temporal. Documentar ejecución nativa para desarrollar y Docker para demostrar la entrega.
+- [x] Crear una única página con selección accesible por botón y teclado, zona de drag and drop y estado visual al arrastrar.
+- [x] Aceptar un archivo por selección. Si se arrastran varios, mostrar un error y conservar el archivo actual, sin elegir uno silenciosamente.
+- [x] Mostrar nombre, tamaño y tipo; permitir quitar o reemplazar el archivo. Cancelar el selector conserva la selección anterior.
+- [x] Validar formatos de esta fase y el límite de 50 MB antes de preparar la vista. Una selección rechazada conserva la vista anterior.
+- [x] Mostrar PDF en el visor nativo del navegador mediante una URL local de objeto. Si el navegador no puede mostrarlo, ofrecer abrir el archivo local y explicar la limitación.
+- [x] Mostrar PNG/JPEG como imagen ajustada al espacio disponible y TXT/Markdown como texto literal, sin ejecutar HTML. Para texto, mostrar como máximo el primer 1 MiB y advertir cuando se trate de una vista parcial.
+- [x] Liberar URLs de objeto al reemplazar o quitar el archivo y al desmontar el visor; evitar que lecturas asíncronas anteriores sustituyan una selección más reciente.
+- [x] Mostrar errores legibles ante archivo vacío, formato no admitido, exceso de tamaño o fallo de lectura/renderizado.
+- [x] Verificar selección, reemplazo, eliminación, drag and drop, accesibilidad básica y adaptación a pantallas pequeñas.
+- [x] Comprobar la compilación de producción, tamaño del frontend, respuesta de las acciones y memoria tras reemplazar diez archivos. Leer TXT/Markdown mediante un segmento de hasta 1 MiB, sin cargar antes el archivo completo.
+- [x] Ejecutar compilación, comprobación de tipos y pruebas relevantes; registrar commits y presentar la demostración.
 
 ### Límites
 
@@ -252,8 +252,10 @@ Estos son ejemplos de hitos, no una obligación de producir un commit por archiv
 
 ## 12. Registro de avances y aprobación
 
-Todas las fases permanecen pendientes. Las casillas solo se marcarán cuando el trabajo y su verificación hayan ocurrido.
+La fase 1 está implementada y verificada. Las fases 2–9 permanecen pendientes. Las casillas solo se marcarán cuando el trabajo y su verificación hayan ocurrido.
 
 Al cerrar cada fase, añadir aquí un registro con fecha, rama, hashes de commits, pruebas realizadas, limitaciones y decisión de aprobación recibida. No registrar aprobaciones inferidas.
 
-**Siguiente paso propuesto:** tras la aprobación del usuario, ejecutar únicamente la fase 1. Empezar por Git y el commit documental inicial, después crear React/Vite, la página de previsualización local y su imagen Docker/Compose. Detenerse al demostrar ejecución nativa y contenerizada, comunicar comprobaciones y mediciones, y solicitar aprobación antes de la fase 2.
+**Registro 2026-10-09:** el usuario autorizó expresamente ejecutar la fase 1. Rama de trabajo: `feat/phase-01-file-preview`. Commits de documentación inicial, interfaz, pruebas y Docker: `4c4e17f`, `b5506c1`, `92a53de`, `21c6083`. Tipos y compilación pasan; 12 pruebas pasan tanto sobre producción nativa como sobre Docker. PDF confirmado visualmente con Chromium. Construcción Docker sin caché desde una copia limpia del código versionado. Resultados, límites y mediciones en [FASE-01-RESULTADOS.md](FASE-01-RESULTADOS.md).
+
+**Siguiente paso propuesto:** revisar la demostración de fase 1. La fase 2 incorporará NestJS, PostgreSQL y biblioteca persistente únicamente tras nueva aprobación del usuario.

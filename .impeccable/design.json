@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T18:38:08.164Z",
+  "title": "Design System: DocuExtractoChat",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Cobalt Action",
+        "tonalRamp": [
+          "oklch(15% 0.21176 268.00)",
+          "oklch(26.4% 0.21176 268.00)",
+          "oklch(37.9% 0.21176 268.00)",
+          "oklch(49.3% 0.21176 268.00)",
+          "oklch(60.7% 0.21176 268.00)",
+          "oklch(72.1% 0.21176 268.00)",
+          "oklch(83.6% 0.21176 268.00)",
+          "oklch(95% 0.21176 268.00)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Navy Ink",
+        "tonalRamp": [
+          "oklch(15% 0.06033 268.25)",
+          "oklch(26.4% 0.06033 268.25)",
+          "oklch(37.9% 0.06033 268.25)",
+          "oklch(49.3% 0.06033 268.25)",
+          "oklch(60.7% 0.06033 268.25)",
+          "oklch(72.1% 0.06033 268.25)",
+          "oklch(83.6% 0.06033 268.25)",
+          "oklch(95% 0.06033 268.25)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Slate Text",
+        "tonalRamp": [
+          "oklch(15% 0.04710 266.64)",
+          "oklch(26.4% 0.04710 266.64)",
+          "oklch(37.9% 0.04710 266.64)",
+          "oklch(49.3% 0.04710 266.64)",
+          "oklch(60.7% 0.04710 266.64)",
+          "oklch(72.1% 0.04710 266.64)",
+          "oklch(83.6% 0.04710 266.64)",
+          "oklch(95% 0.04710 266.64)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Blue Work Surface",
+        "tonalRamp": [
+          "oklch(15% 0.00991 267.36)",
+          "oklch(26.4% 0.00991 267.36)",
+          "oklch(37.9% 0.00991 267.36)",
+          "oklch(49.3% 0.00991 267.36)",
+          "oklch(60.7% 0.00991 267.36)",
+          "oklch(72.1% 0.00991 267.36)",
+          "oklch(83.6% 0.00991 267.36)",
+          "oklch(95% 0.00991 267.36)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Paper",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26.4% 0.00000 89.88)",
+          "oklch(37.9% 0.00000 89.88)",
+          "oklch(49.3% 0.00000 89.88)",
+          "oklch(60.7% 0.00000 89.88)",
+          "oklch(72.1% 0.00000 89.88)",
+          "oklch(83.6% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Cool Rule",
+        "tonalRamp": [
+          "oklch(15% 0.01720 267.78)",
+          "oklch(26.4% 0.01720 267.78)",
+          "oklch(37.9% 0.01720 267.78)",
+          "oklch(49.3% 0.01720 267.78)",
+          "oklch(60.7% 0.01720 267.78)",
+          "oklch(72.1% 0.01720 267.78)",
+          "oklch(83.6% 0.01720 267.78)",
+          "oklch(95% 0.01720 267.78)"
+        ]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Pale Cobalt",
+        "tonalRamp": [
+          "oklch(15% 0.02483 273.50)",
+          "oklch(26.4% 0.02483 273.50)",
+          "oklch(37.9% 0.02483 273.50)",
+          "oklch(49.3% 0.02483 273.50)",
+          "oklch(60.7% 0.02483 273.50)",
+          "oklch(72.1% 0.02483 273.50)",
+          "oklch(83.6% 0.02483 273.50)",
+          "oklch(95% 0.02483 273.50)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Cobalt Focus",
+        "tonalRamp": [
+          "oklch(15% 0.21316 267.86)",
+          "oklch(26.4% 0.21316 267.86)",
+          "oklch(37.9% 0.21316 267.86)",
+          "oklch(49.3% 0.21316 267.86)",
+          "oklch(60.7% 0.21316 267.86)",
+          "oklch(72.1% 0.21316 267.86)",
+          "oklch(83.6% 0.21316 267.86)",
+          "oklch(95% 0.21316 267.86)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The page task heading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Compact panel headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Original plain-text evidence."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Supporting descriptions and links."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "drag-feedback",
+        "value": "background 0.18s ease-out, border-color 0.18s ease-out",
+        "purpose": "Drop-target state transition; disabled when reduced motion is requested."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1500px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "950px"
+      },
+      {
+        "name": "stacked",
+        "value": "720px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The file selection action.",
+      "html": "<button class=\"ds-primary\">Seleccionar archivo<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14 M14 7l5 5-5 5\"/></svg></button>",
+      "css": ".ds-primary{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;font-size:12px;font-weight:550;border:0;border-radius:7px;padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:16px;cursor:pointer;background:var(--accent,#273fc8);color:var(--surface,#fff)}.ds-primary:hover{background:#1d30a2}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Supporting action in preview failure.",
+      "html": "<a class=\"ds-secondary\" href=\"#archivo\">Abrir archivo<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14 M14 7l5 5-5 5\"/></svg></a>",
+      "css": ".ds-secondary{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;font-size:12px;font-weight:550;border:0;border-radius:7px;padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:16px;cursor:pointer;background:#e8edff;color:var(--accent,#273fc8);text-decoration:none}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Remove a selected file.",
+      "html": "<button class=\"ds-icon\" aria-label=\"Quitar archivo\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12 M18 6L6 18\"/></svg></button>",
+      "css": ".ds-icon{width:36px;height:36px;display:grid;place-items:center;background:transparent;color:var(--ink,#202b4b);border:0;border-radius:6px;cursor:pointer}.ds-icon:hover{background:#dfe5f2}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}"
+    },
+    {
+      "name": "Phase Label",
+      "kind": "chip",
+      "refersTo": "phase-label",
+      "description": "Noninteractive phase metadata.",
+      "html": "<span class=\"ds-phase\">Fase 1 · Vista previa</span>",
+      "css": ".ds-phase{display:inline-block;font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;color:var(--muted,#596581);font-size:11px;white-space:nowrap;padding:8px 12px;border:1px solid #ccd4e7;border-radius:5px}"
+    },
+    {
+      "name": "Drop Target",
+      "kind": "card",
+      "description": "A pale working target that strengthens during drag-over.",
+      "html": "<section class=\"ds-drop\"><h3>Arrastra tu archivo aquí</h3><p>O búscalo en tu equipo.</p></section>",
+      "css": ".ds-drop{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;color:var(--ink,#202b4b);padding:28px 12px 24px;text-align:center;border:1px dashed #a8b4d1;border-radius:10px;background:#f6f8ff;transition:background .18s ease-out,border-color .18s ease-out}.ds-drop.is-dragging{background:#e3eaff;border-color:var(--accent,#273fc8);border-style:solid}.ds-drop h3{font-size:15px;font-weight:600;letter-spacing:-.02em;margin:0 0 9px}.ds-drop p{font-size:12px;color:var(--muted,#596581);margin:0}@media(prefers-reduced-motion:reduce){.ds-drop{transition:none}}"
+    },
+    {
+      "name": "Selected File",
+      "kind": "custom",
+      "description": "Filename and compact format/size metadata.",
+      "html": "<div class=\"ds-file\"><strong title=\"ejemplo.txt\">ejemplo.txt</strong><span>TXT · 348 B</span></div>",
+      "css": ".ds-file{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;color:var(--ink,#202b4b);padding:13px 0;border-bottom:1px solid var(--line,#dce1ed)}.ds-file strong{display:block;font-size:12px;font-weight:550;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.ds-file span{display:block;margin-top:5px;font-size:10px;color:var(--muted,#596581);font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Text Part Navigation",
+      "kind": "nav",
+      "description": "Bounded plain-text display navigation.",
+      "html": "<nav class=\"ds-text-nav\" aria-label=\"Partes del texto\"><button disabled>Anterior</button><span role=\"status\">Parte 1 de 2</span><button>Siguiente</button></nav>",
+      "css": ".ds-text-nav{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;color:var(--ink,#202b4b);display:flex;align-items:center;justify-content:space-between;gap:12px;background:white;padding:12px 0;border-bottom:1px solid var(--line,#dce1ed);font-size:12px}.ds-text-nav button{font:inherit;border:1px solid var(--line,#dce1ed);border-radius:5px;padding:9px 12px;background:white;color:var(--accent,#273fc8);cursor:pointer}.ds-text-nav button:disabled{color:var(--muted,#596581);opacity:.55;cursor:default}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Local Inspection Desk",
+    "overview": "A pale blue work surface, deep navy ink and cobalt actions make a small, practical document tool. Public Sans provides the same readable voice for controls and document text. Ruled white panels distinguish tools from evidence without ornamental depth.\n\nThis record derives from the current implementation and its desktop, selected-file, mobile and native-PDF renders. The code-led visual direction is provisional: no user-approved comp or established brand assets exist. This describes the built world; future capabilities must not be inferred from it.",
+    "keyCharacteristics": [
+      "A cool, lightly tinted ground surrounding white working surfaces.",
+      "Cobalt for actions and active evidence state.",
+      "One readable sans-serif family with a restrained hierarchy.",
+      "Fine dividers and softened corners instead of shadows."
+    ],
+    "rules": [
+      {
+        "name": "The Action Color Rule",
+        "body": "Cobalt identifies an action or active state; reading surfaces remain neutral.",
+        "section": "colors"
+      },
+      {
+        "name": "The Single Voice Rule",
+        "body": "Use Public Sans for interface and plain-text evidence; establish hierarchy through size, weight and spacing.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruled Surface Rule",
+        "body": "Distinguish adjacent working regions with tonal surfaces and fine dividers before adding depth.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use cobalt for actions and active state, with neutral reading surfaces.",
+      "Do preserve visible keyboard focus and reduced-motion behavior.",
+      "Do use fine dividers and tone to distinguish working regions.",
+      "Do keep original document content readable and show partial or failed previews explicitly."
+    ],
+    "donts": [
+      "Don't substitute glyph characters for the implemented SVG icons.",
+      "Don't inherit browser PDF toolbar colors, icons or typography as application tokens.",
+      "Don't turn this surface's first viewport or future product phases into global visual requirements."
+    ]
+  }
+}

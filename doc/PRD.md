@@ -2,7 +2,7 @@
 
 Fecha: 2026-10-09  
 Estado: definición inicial; pendiente de aclaraciones del usuario.  
-La implementación no está autorizada todavía. El desarrollo seguirá las fases y puntos de revisión definidos en [FASES.md](FASES.md).
+La fase 1 fue autorizada y se implementó el 2026-10-09. Las fases siguientes requieren aprobación independiente, según [FASES.md](FASES.md). Esta entrega solo permite previsualización local; los requisitos RAG siguientes siguen pendientes.
 
 ## 1. Objetivo
 
@@ -128,4 +128,4 @@ Los siguientes valores proceden del plan y no de una exigencia explícita del us
 
 Los modelos concretos son candidatos configurables, sujetos a disponibilidad, condiciones de uso y evaluación. No se han ejecutado comprobaciones con cuentas reales.
 
-Este PRD es una base editable. El usuario eligió NestJS como backend principal y autorizó únicamente actualizar la documentación. La implementación permanece pendiente de autorización expresa; no interpretar estas decisiones como autorización para desarrollar.
+Este PRD es una base editable. El usuario eligió NestJS como backend principal y autorizó después la fase 1. Su resultado se registra en [FASE-01-RESULTADOS.md](FASE-01-RESULTADOS.md). No interpretar la entrega de previsualización como autorización para desarrollar las fases siguientes.

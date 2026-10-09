@@ -2,7 +2,7 @@
 
 Fecha: 2026-10-09  
 Estado: propuesta documentada; pendiente de aclaraciones y validación técnica.  
-No se ha iniciado la implementación.
+La fase 1 de previsualización local está implementada. La arquitectura RAG completa descrita aquí continúa pendiente; NestJS, Python y PostgreSQL todavía no se han inicializado.
 
 ## 1. Arquitectura general
 
@@ -258,4 +258,4 @@ Evaluar PDF textual, escaneo, DOCX, tablas, español/inglés, evidencia ausente 
 
 Las referencias se consultaron durante la planificación; no se han comprobado cuentas, cuotas ni llamadas reales. Las versiones de dependencias se fijarán durante la preparación de implementación tras verificar compatibilidad.
 
-El usuario eligió NestJS como backend principal y autorizó esta actualización documental. La implementación sigue pendiente de autorización expresa. No crear todavía código ni poner infraestructura en ejecución a partir de este documento.
+El usuario eligió NestJS como backend principal y autorizó posteriormente la fase 1: React/Vite y un servidor estático Nginx temporal en Docker. Su resultado se registra en [FASE-01-RESULTADOS.md](FASE-01-RESULTADOS.md). Las fases siguientes necesitan autorización expresa; este documento no autoriza por sí solo su implementación.
