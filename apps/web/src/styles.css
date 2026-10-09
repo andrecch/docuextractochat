@@ -18,7 +18,8 @@ body {
   min-width: 320px;
 }
 button,
-input {
+input,
+select {
   font: inherit;
 }
 button,
@@ -37,7 +38,8 @@ a {
   touch-action: manipulation;
 }
 button:focus-visible,
-a:focus-visible {
+a:focus-visible,
+select:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 5px;
 }
@@ -708,5 +710,232 @@ h2 {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+}
+.save-document {
+  padding-top: 18px;
+}
+.sensitivity-field {
+  display: grid;
+  gap: 8px;
+}
+.sensitivity-field label {
+  font-size: 12px;
+  font-weight: 550;
+}
+.sensitivity-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.sensitivity-hint,
+.saved-label,
+.library-feedback {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.saved-label {
+  color: #366a50;
+}
+.library-feedback {
+  overflow-wrap: anywhere;
+}
+.button:disabled,
+.text-action:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.library-panel {
+  margin-top: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.library-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.library-heading h2 {
+  font-size: 16px;
+}
+.library-heading p,
+.library-document-info p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.text-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--accent);
+  font-size: 12px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.text-action:hover:not(:disabled),
+.document-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.library-empty {
+  padding: 24px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.library-empty strong {
+  color: var(--ink);
+}
+.library-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.library-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.library-document-info {
+  flex: 1;
+  min-width: 0;
+}
+.document-name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  min-height: 36px;
+}
+.library-document-info p {
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.library-actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+.danger-action {
+  color: #8a282d;
+}
+.delete-confirm {
+  width: 100%;
+  padding: 16px;
+  background: #fff0f0;
+  border-radius: 7px;
+}
+.delete-confirm p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+}
+.delete-confirm .button {
+  margin: 0 12px 8px 0;
+}
+.delete-button {
+  background: #8a282d;
+  color: white;
+}
+.library-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+.library-pagination span {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.library-panel > .library-feedback {
+  margin: 0;
+  padding: 16px 24px;
+}
+.docx-content {
+  font-size: 13px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.docx-content h1 {
+  font-size: 26px;
+}
+.docx-content h2 {
+  font-size: 21px;
+}
+.docx-content h3 {
+  font-size: 18px;
+}
+.docx-content table {
+  border-collapse: collapse;
+  display: block;
+  max-width: 100%;
+  overflow: auto;
+}
+.docx-content td,
+.docx-content th {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  min-width: 90px;
+}
+.docx-content th {
+  background: #f6f8ff;
+}
+@media (max-width: 720px) {
+  .library-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+  }
+  .library-heading .text-action {
+    padding-left: 0;
+  }
+  .library-list li {
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .library-actions {
+    margin-left: -12px;
+  }
+  .library-pagination {
+    flex-wrap: wrap;
+  }
+  .library-pagination span {
+    order: -1;
+    width: 100%;
+    padding: 8px 0;
   }
 }

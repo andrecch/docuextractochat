@@ -4,12 +4,15 @@ import { Icon } from "./components/Icon";
 import { ACCEPTED_FILES, formatBytes } from "./features/file-preview/files";
 import { useLocalPreview } from "./features/file-preview/useLocalPreview";
 import { Preview } from "./features/file-preview/Preview";
+import { Library, SaveDocument } from "./features/library/Library";
+import { useLibrary } from "./features/library/useLibrary";
 
 export function App() {
   const input = useRef<HTMLInputElement>(null);
   const dragDepth = useRef(0);
   const [dragging, setDragging] = useState(false);
-  const { preview, busy, error, select, clear, dismissError } =
+  const library = useLibrary();
+  const { preview, busy, error, select, open, clear, dismissError } =
     useLocalPreview();
   const choose = () => input.current?.click();
 
@@ -40,7 +43,7 @@ export function App() {
     void select([
       new File(
         [
-          "Un documento de ejemplo\n\nEste archivo se creó en tu navegador para que pruebes la vista previa.\n\nPuedes seleccionar PDF, PNG, JPEG, TXT o Markdown. Para reemplazarlo, arrastra un archivo o usa el botón de selección.\n\nEn esta primera fase, el contenido permanece en tu equipo. Todavía no hay carga a servidores, OCR ni conversación con modelos.",
+          "Un documento de ejemplo\n\nEste archivo se creó en tu navegador para que pruebes la vista previa.\n\nPuedes seleccionar PDF, PNG, JPEG, TXT, Markdown o DOCX. Para reemplazarlo, arrastra un archivo o usa el botón de selección.\n\nSolo se guarda una copia en el servicio local al pulsar Guardar en biblioteca. El contenido no se envía a proveedores. Todavía no hay OCR ni conversación con modelos.",
         ],
         "ejemplo.txt",
         { type: "text/plain" },
@@ -76,7 +79,7 @@ export function App() {
               ellos.
             </p>
           </div>
-          <span className="phase-label">Fase 1 · Vista previa</span>
+          <span className="phase-label">Fase 2 · Biblioteca local</span>
         </div>
         <div id="workspace" className="workspace">
           <section className="file-panel" aria-labelledby="file-heading">
@@ -137,9 +140,9 @@ export function App() {
               <h3>Formatos disponibles</h3>
               <p>
                 PDF <span>·</span> PNG <span>·</span> JPEG <span>·</span> TXT{" "}
-                <span>·</span> Markdown
+                <span>·</span> Markdown <span>·</span> DOCX
               </p>
-              <small>La vista de DOCX llegará en la siguiente fase.</small>
+              <small>DOCX: texto y tablas después de guardar.</small>
             </div>
             {error && (
               <div className="error-message" role="alert">
@@ -173,7 +176,8 @@ export function App() {
                 <div className="file-description">
                   <strong title={preview.file.name}>{preview.file.name}</strong>
                   <span>
-                    {preview.label} · {formatBytes(preview.file.size)}
+                    {preview.label} ·{" "}
+                    {formatBytes(preview.originalSize ?? preview.file.size)}
                   </span>
                 </div>
                 <button
@@ -185,13 +189,22 @@ export function App() {
                 </button>
               </div>
             )}
+            {preview && (
+              <SaveDocument
+                key={preview.url}
+                preview={preview}
+                library={library}
+                onOpen={open}
+              />
+            )}
             <div className="privacy-note">
               <Icon name="shield" />
               <div>
                 <strong>Tu contenido se queda contigo.</strong>
                 <p>
-                  Esta vista no sube archivos ni envía su contenido a servicios
-                  externos.
+                  Seleccionar no guarda el archivo. Solo «Guardar en biblioteca»
+                  crea una copia en el servicio local de tu equipo. No se envía
+                  contenido a proveedores externos.
                 </p>
               </div>
             </div>
@@ -206,14 +219,16 @@ export function App() {
                 <span className="viewer-dot" />
                 <h2 id="preview-heading">Vista previa</h2>
               </div>
-              {preview ? (
+              {preview && (preview.kind !== "docx" || preview.documentId) ? (
                 <a
                   className="open-link"
                   href={preview.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Abrir {preview.truncated ? "vista parcial" : "archivo"}
+                  {preview.kind === "docx"
+                    ? "Descargar original"
+                    : `Abrir ${preview.truncated ? "vista parcial" : "archivo"}`}
                   <Icon name="expand" width="16" height="16" />
                 </a>
               ) : (
@@ -247,10 +262,19 @@ export function App() {
                     : "Vista local"
                   : "Esperando tu archivo"}
               </span>
-              <span>{preview ? preview.label : "Sin cargas a servidores"}</span>
+              <span>
+                {preview ? preview.label : "Guardado solo por decisión tuya"}
+              </span>
             </div>
           </section>
         </div>
+        <Library
+          library={library}
+          onOpen={open}
+          onDeleted={(id) => {
+            if (preview?.documentId === id) clear();
+          }}
+        />
         <footer className="page-footer">
           <span>Un primer paso, antes del chat.</span>
           <p>

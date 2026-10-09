@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import type { LocalPreview } from "./files";
 import { Icon } from "../../components/Icon";
+import { SafeDocx } from "./SafeDocx";
 
 export function Preview({ preview }: { preview: LocalPreview }) {
   const [failed, setFailed] = useState(false);
@@ -37,6 +38,37 @@ export function Preview({ preview }: { preview: LocalPreview }) {
           Abrir archivo
           <Icon name="expand" />
         </a>
+      </div>
+    );
+  if (preview.kind === "docx")
+    return (
+      <div className="text-view">
+        <div className="text-view-heading">
+          <Icon name="document" />
+          <span>DOCX · Texto y tablas</span>
+        </div>
+        {preview.html !== undefined ? (
+          <>
+            <p className="partial-note">
+              La distribución y la paginación pueden diferir de Word. Descarga
+              el original para conservar su formato.
+            </p>
+            {preview.warnings
+              ?.filter(
+                (warning) =>
+                  warning !==
+                  "La paginación y el formato pueden diferir de Word.",
+              )
+              .map((warning, index) => (
+                <p className="partial-note" key={index}>
+                  {warning}
+                </p>
+              ))}
+            <SafeDocx html={preview.html} />
+          </>
+        ) : (
+          <p>Guarda en biblioteca para previsualizar texto y tablas.</p>
+        )}
       </div>
     );
   if (preview.kind === "text")

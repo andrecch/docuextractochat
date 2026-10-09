@@ -1,8 +1,8 @@
 export const MAX_FILE_BYTES = 50 * 1024 * 1024;
 export const MAX_TEXT_BYTES = 1024 * 1024;
-export const ACCEPTED_FILES = ".pdf,.png,.jpg,.jpeg,.txt,.md,.markdown";
+export const ACCEPTED_FILES = ".pdf,.png,.jpg,.jpeg,.txt,.md,.markdown,.docx";
 
-export type FileKind = "pdf" | "image" | "text";
+export type FileKind = "pdf" | "image" | "text" | "docx";
 export type LocalPreview = {
   file: File;
   kind: FileKind;
@@ -10,6 +10,10 @@ export type LocalPreview = {
   url: string;
   text?: string;
   truncated: boolean;
+  originalSize?: number;
+  documentId?: string;
+  html?: string;
+  warnings?: string[];
 };
 
 const extensions: Record<string, { kind: FileKind; label: string }> = {
@@ -20,18 +24,15 @@ const extensions: Record<string, { kind: FileKind; label: string }> = {
   txt: { kind: "text", label: "TXT" },
   md: { kind: "text", label: "Markdown" },
   markdown: { kind: "text", label: "Markdown" },
+  docx: { kind: "docx", label: "DOCX" },
 };
 
 export function fileType(file: File) {
   const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
-  if (extension === "docx")
-    throw new Error(
-      "La vista de DOCX llegará en la fase 2. Por ahora, selecciona un PDF, una imagen o un archivo de texto.",
-    );
   const type = extensions[extension];
   if (!type)
     throw new Error(
-      "Formato no admitido. Selecciona PDF, PNG, JPEG, TXT o Markdown.",
+      "Formato no admitido. Selecciona PDF, PNG, JPEG, TXT, Markdown o DOCX.",
     );
   if (!file.size)
     throw new Error(
@@ -111,6 +112,12 @@ export async function preparePreview(file: File): Promise<LocalPreview> {
       );
     // Even the open-in-tab action uses the bounded, inert text copy.
     previewFile = new Blob([text], { type: "text/plain;charset=utf-8" });
+  } else if (type.kind === "docx") {
+    const bytes = new Uint8Array(await file.slice(0, 4).arrayBuffer());
+    if (bytes[0] !== 80 || bytes[1] !== 75 || bytes[2] !== 3 || bytes[3] !== 4)
+      throw new Error(
+        "El contenido no corresponde a un archivo DOCX válido. Comprueba el archivo o selecciona otro.",
+      );
   } else {
     await validateSignature(file, type.label);
     previewFile = new Blob([file], {

@@ -81,7 +81,7 @@ test("handles cancellation and unsupported, empty and mismatched files", async (
   await picker.setInputFiles([]);
   await expect(page.getByTestId("text-preview")).toHaveText("Contenido válido");
   for (const [name, data, message] of [
-    ["informe.docx", "word", "fase 2"],
+    ["informe.docx", "word", "no corresponde"],
     ["datos.csv", "a,b", "Formato no admitido"],
     ["vacío.txt", "", "vacío"],
     ["falso.pdf", "No es PDF", "no corresponde"],

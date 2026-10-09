@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { preparePreview } from "./files";
 import type { LocalPreview } from "./files";
+import { storedPreview } from "../library/api";
+import type { DocumentRecord } from "../library/api";
 
 export function useLocalPreview() {
   const [preview, setPreview] = useState<LocalPreview | null>(null);
@@ -8,15 +10,18 @@ export function useLocalPreview() {
   const [busy, setBusy] = useState(false);
   const generation = useRef(0);
   const liveUrl = useRef<string | null>(null);
+  const openController = useRef<AbortController | null>(null);
 
   const release = useCallback(() => {
-    if (liveUrl.current) URL.revokeObjectURL(liveUrl.current);
+    if (liveUrl.current?.startsWith("blob:"))
+      URL.revokeObjectURL(liveUrl.current);
     liveUrl.current = null;
   }, []);
 
   useEffect(
     () => () => {
       generation.current++;
+      openController.current?.abort();
       release();
     },
     [release],
@@ -26,6 +31,7 @@ export function useLocalPreview() {
     async (files: File[]) => {
       if (!files.length) return;
       const token = ++generation.current;
+      openController.current?.abort();
       setError(null);
       if (files.length !== 1) {
         setBusy(false);
@@ -60,17 +66,50 @@ export function useLocalPreview() {
 
   const clear = useCallback(() => {
     generation.current++;
+    openController.current?.abort();
     release();
     setPreview(null);
     setError(null);
     setBusy(false);
   }, [release]);
 
+  const open = useCallback(
+    async (record: DocumentRecord) => {
+      const token = ++generation.current;
+      openController.current?.abort();
+      const controller = new AbortController();
+      openController.current = controller;
+      setBusy(true);
+      setError(null);
+      try {
+        const next = await storedPreview(record, controller.signal);
+        if (generation.current !== token) {
+          if (next.url.startsWith("blob:")) URL.revokeObjectURL(next.url);
+          return;
+        }
+        release();
+        liveUrl.current = next.url;
+        setPreview(next);
+      } catch (reason) {
+        if (generation.current === token)
+          setError(
+            reason instanceof Error
+              ? reason.message
+              : "No se pudo abrir el documento guardado.",
+          );
+      } finally {
+        if (generation.current === token) setBusy(false);
+      }
+    },
+    [release],
+  );
+
   return {
     preview,
     error,
     busy,
     select,
+    open,
     clear,
     dismissError: () => setError(null),
   };
