@@ -1,7 +1,7 @@
 # Desarrollo incremental de DocuExtractoChat
 
 Fecha: 2026-10-09  
-Estado: fase 1 implementada y verificada el 2026-10-09 tras autorización expresa. Fases 2–9 pendientes de autorización.
+Estado: fases 1 y 2 implementadas y verificadas el 2026-10-09 tras autorización expresa. Fases 3–9 pendientes de autorización.
 
 **Objetivo:** desarrollar y comprobar el sistema en entregas pequeñas, conservando una aplicación utilizable y un historial Git claro después de cada fase.
 
@@ -111,15 +111,15 @@ Estos son ejemplos de hitos, no una obligación de producir un commit por archiv
 
 **Resultado visible:** los archivos aprobados para carga se guardan localmente y aparecen en una biblioteca después de recargar.
 
-- [ ] Inicializar `apps/api` con NestJS y TypeScript; servir la API local y configurar la conexión de desarrollo con React.
-- [ ] Incorporar PostgreSQL en Docker, TypeORM y migraciones como única fuente del esquema.
-- [ ] Contenerizar NestJS por etapas con la interfaz React compilada; sustituir el servicio temporal Nginx. Compose incorpora `app`, PostgreSQL y la tarea única de migración, healthchecks y volúmenes persistentes.
-- [ ] No publicar el puerto de PostgreSQL en la distribución habitual. Configurar exclusiones, permisos locales, configuración sin secretos y los presupuestos iniciales de 512 MiB por servicio `app`/`db`.
-- [ ] Implementar carga, listado, metadatos, hash de duplicados, descarga/visualización y eliminación, con archivos en almacenamiento local y rutas internas controladas.
-- [ ] Validar formatos y tamaño en el servidor, sin confiar solo en la extensión o en la validación del navegador.
-- [ ] Incorporar DOCX: vista local de texto y tablas convertidos, con contenido saneado y advertencia de que no reproduce fielmente la paginación de Word. No afirmar equivalencia visual con el original.
-- [ ] Incorporar declaración de sensibilidad; archivos cargados todavía no se consideran aprobados para envío a proveedores.
-- [ ] Guardar documentación de inicio/parada y probar migraciones desde una base vacía, duplicados, eliminación y persistencia tras reiniciar.
+- [x] Inicializar `apps/api` con NestJS y TypeScript; servir la API local y configurar la conexión de desarrollo con React.
+- [x] Incorporar PostgreSQL en Docker, TypeORM y migraciones como única fuente del esquema.
+- [x] Contenerizar NestJS por etapas con la interfaz React compilada; sustituir el servicio temporal Nginx. Compose incorpora `app`, PostgreSQL y la tarea única de migración, healthchecks y volúmenes persistentes.
+- [x] No publicar el puerto de PostgreSQL en la distribución habitual. Configurar exclusiones, permisos locales, configuración sin secretos y los presupuestos iniciales de 512 MiB por servicio `app`/`db`.
+- [x] Implementar carga, listado, metadatos, hash de duplicados, descarga/visualización y eliminación, con archivos en almacenamiento local y rutas internas controladas.
+- [x] Validar formatos y tamaño en el servidor, sin confiar solo en la extensión o en la validación del navegador.
+- [x] Incorporar DOCX: vista local de texto y tablas convertidos, con contenido saneado y advertencia de que no reproduce fielmente la paginación de Word. No afirmar equivalencia visual con el original.
+- [x] Incorporar declaración de sensibilidad; archivos cargados todavía no se consideran aprobados para envío a proveedores.
+- [x] Guardar documentación de inicio/parada y probar migraciones desde una base vacía, duplicados, eliminación y persistencia tras reiniciar.
 
 **Límite:** todavía no OCR, LLM, embeddings ni chat.
 
@@ -252,10 +252,12 @@ Estos son ejemplos de hitos, no una obligación de producir un commit por archiv
 
 ## 12. Registro de avances y aprobación
 
-La fase 1 está implementada y verificada. Las fases 2–9 permanecen pendientes. Las casillas solo se marcarán cuando el trabajo y su verificación hayan ocurrido.
+Las fases 1 y 2 están implementadas y verificadas. Las fases 3–9 permanecen pendientes. Las casillas solo se marcarán cuando el trabajo y su verificación hayan ocurrido.
 
 Al cerrar cada fase, añadir aquí un registro con fecha, rama, hashes de commits, pruebas realizadas, limitaciones y decisión de aprobación recibida. No registrar aprobaciones inferidas.
 
 **Registro 2026-10-09:** el usuario autorizó expresamente ejecutar la fase 1. Rama de trabajo: `feat/phase-01-file-preview`. Commits de documentación inicial, interfaz, pruebas y Docker: `4c4e17f`, `b5506c1`, `92a53de`, `21c6083`. Tipos y compilación pasan; 12 pruebas pasan tanto sobre producción nativa como sobre Docker. PDF confirmado visualmente con Chromium. Construcción Docker sin caché desde una copia limpia del código versionado. Resultados, límites y mediciones en [FASE-01-RESULTADOS.md](FASE-01-RESULTADOS.md).
 
-**Siguiente paso propuesto:** revisar la demostración de fase 1. La fase 2 incorporará NestJS, PostgreSQL y biblioteca persistente únicamente tras nueva aprobación del usuario.
+**Registro fase 2, 2026-10-09:** el usuario autorizó expresamente continuar. Rama `feat/phase-02-document-library`; commits `e1953bf`, `a3bac9d`, `b36bc78` y `a59a7c9`, más el cierre documental. Tipos, compilación y seis pruebas API con PostgreSQL real pasan; dieciséis pruebas de navegador pasan en ejecución nativa y Docker. Recrear app y base conserva documentos y sensibilidad. Resultados y límites en [FASE-02-RESULTADOS.md](FASE-02-RESULTADOS.md).
+
+**Siguiente paso propuesto:** revisar la biblioteca de fase 2. La fase 3 incorporará cola persistente y extracción textual con Python únicamente tras nueva aprobación.

@@ -1,59 +1,79 @@
 # DocuExtractoChat
 
-Fase 1: selecciona o arrastra **un archivo** y previsualízalo localmente. React, TypeScript y Vite. No hay API, OCR, chat, cuentas ni persistencia todavía. Los archivos no se suben ni se envían a proveedores.
+Fase 2: biblioteca personal local con React, TypeScript, Vite, NestJS y PostgreSQL. Puedes seleccionar un archivo, revisarlo y **guardarlo explícitamente** para recuperarlo tras recargar o reiniciar. No hay OCR, chat, embeddings, anonimización ni llamadas a proveedores todavía.
 
-## Desarrollo
+## Docker: distribución local
 
-Requisitos: Node.js 24.20 o posterior de la rama 24, npm y navegador actualizado.
+Requisitos: Docker con BuildKit, Compose y contenedores Linux. En Windows, iniciar Docker Desktop. Node y PostgreSQL no necesitan instalarse en el equipo destino.
 
-```sh
-npm ci
-npm run dev
-```
-
-Abrir <http://127.0.0.1:5173>. Compilación y vista de producción:
+1. Copiar `.env.example` a `.env` y reemplazar ambos valores con contraseñas aleatorias distintas. Usar letras/números para evitar problemas de codificación en las URLs. `.env` está excluido de Git y de la imagen. La instalación preparada en este proyecto ya tiene contraseñas generadas aleatoriamente.
+2. Construir e iniciar:
 
 ```sh
-npm run build
-npm run preview
-```
-
-Abrir <http://127.0.0.1:4173>. Los servidores quedan ligados al equipo local. Las dependencias y fuentes requieren descarga inicial; las fuentes se sirven después desde la propia aplicación.
-
-## Docker
-
-Requisito: Docker con Compose y contenedores Linux; en Windows, Docker Desktop iniciado. No requiere Node ni Python instalados en el host.
-
-```sh
-docker compose up --build -d
+docker compose up --build -d --remove-orphans
 docker compose ps
-docker compose logs --tail 50
+```
+
+Abrir <http://127.0.0.1:8080>. NestJS sirve la interfaz compilada y la API. PostgreSQL no publica un puerto en la distribución habitual. `migrate` se ejecuta una vez antes de iniciar la aplicación; es normal que termine con código 0.
+
+Los originales y PostgreSQL usan volúmenes locales separados. La aplicación corre como usuario sin privilegios de sistema y con un rol de base que puede operar registros, sin permisos de administrador ni creación de tablas. Cada servicio persistente tiene un límite de 512 MiB; la migración temporal tiene 256 MiB. Estos límites excluyen navegador y Docker Desktop/WSL.
+
+```sh
+docker compose logs --tail 40 app migrate
+docker compose stop
+docker compose up --no-build -d
 docker compose down
 ```
 
-Abrir <http://127.0.0.1:8080>. Esta fase usa un servidor estático Nginx temporal, sin volúmenes ni archivos guardados. El contenedor tiene un límite inicial de 64 MiB y 0,5 CPU; no incluye el navegador ni Docker Desktop. NestJS sustituirá este servicio en la fase 2.
-
-Si la instalación mantiene otro contexto Docker, seleccionar el correspondiente a contenedores Linux o usar `docker --context desktop-linux compose ...` en Windows. No ejecutar dos copias en el mismo puerto.
+`stop` y `down` conservan los volúmenes. Para conservar la biblioteca, **no añadir `-v`**. Cambiar las contraseñas del archivo de configuración no cambia automáticamente las de una base existente: debe hacerse una rotación deliberada, conservando los datos.
 
 ### Compose antiguo en Windows
 
-Compose 2.24.3 puede fallar al construir con `changes out of order`, un [problema registrado en Docker Compose](https://github.com/docker/compose/issues/11421). Actualizar Compose corrige ese problema; sin actualizar el equipo, se puede construir directamente con Docker y luego ejecutar con Compose:
+Compose 2.24.3 puede fallar al construir con `changes out of order`, un [problema registrado en Docker Compose](https://github.com/docker/compose/issues/11421). En este equipo se comprobó la alternativa:
 
 ```sh
-docker build -t docuextractochat-preview:0.1.0 -f apps/web/Dockerfile .
-docker compose up --no-build -d
+docker --context desktop-linux build -t docuextractochat-app:0.2.0 -f apps/api/Dockerfile .
+docker --context desktop-linux compose up --no-build -d --remove-orphans
 ```
+
+En otros equipos, utilizar el contexto de Docker correspondiente. El servicio Nginx temporal de fase 1 ha sido sustituido por NestJS.
+
+## Desarrollo nativo en Windows
+
+Requisitos: Node 24.20 o posterior de la rama 24, npm y Docker para PostgreSQL. La configuración de desarrollo publica PostgreSQL **solo en 127.0.0.1:5433**.
+
+```powershell
+npm ci
+docker --context desktop-linux compose -f compose.yaml -f compose.dev.yaml up -d db
+. ./scripts/local-env.ps1
+npm run build
+# La migración usa el rol propietario, no el rol de la aplicación.
+$appDatabaseUrl = $env:DATABASE_URL
+$env:DATABASE_URL = $env:DATABASE_TEST_URL
+npm run migrate
+$env:DATABASE_URL = $appDatabaseUrl
+npm run dev:api
+```
+
+En otra terminal, `npm run dev` abre Vite en <http://127.0.0.1:5173>, con `/api` conectado al servicio local de NestJS en el puerto 3000. `npm run preview` sirve la interfaz compilada en el puerto 4173 y utiliza el mismo proxy.
+
+El comando de API compila al iniciar y observa la salida compilada. Después de editar TypeScript, ejecutar `npm run build --workspace @docuextractochat/api` en otra terminal para recompilar y activar el reinicio. La ejecución nativa guarda originales en `data/documents`; Docker utiliza su propio volumen y no comparte esos archivos de desarrollo.
+
+Para volver a distribución sin puerto de base publicado, detener primero la API nativa y ejecutar Compose usando solo `compose.yaml`.
 
 ## Pruebas
 
-```sh
+Con PostgreSQL de desarrollo y API nativa disponibles según las instrucciones anteriores:
+
+```powershell
+. ./scripts/local-env.ps1
 npx playwright install chromium
 npm run check
 ```
 
-`check` comprueba tipos, construye producción y ejecuta recorridos de navegador. Playwright abre un servidor temporal de producción y lo cierra al terminar. Las pruebas crean archivos sintéticos, nunca usan documentos del usuario. El informe HTML se guarda en `playwright-report/`.
+`check` verifica tipos, compila React/NestJS, ejecuta Jest/Supertest contra PostgreSQL real y prueba la interfaz con Playwright. La API de pruebas usa un esquema desechable único y archivos sintéticos; nunca trunca la biblioteca. Playwright abre y cierra su servidor Vite de producción. Las pruebas de biblioteca guardan documentos sintéticos únicos y eliminan únicamente sus propios identificadores.
 
-Para repetir los recorridos sobre Docker, primero iniciar el contenedor y configurar `PREVIEW_BASE_URL`:
+Sobre la aplicación Docker iniciada:
 
 ```powershell
 $env:PREVIEW_BASE_URL = 'http://127.0.0.1:8080'
@@ -61,20 +81,30 @@ npm test
 Remove-Item Env:PREVIEW_BASE_URL
 ```
 
-## Alcance y límites
+La prueba explícita de persistencia recrea solo app y db de este proyecto, conserva sus volúmenes y elimina su propio archivo sintético:
 
-- PDF: visor nativo y enlace de apertura alternativa. La disponibilidad del visor depende del navegador; un iframe cargado no demuestra por sí solo que todas las páginas se vean correctamente.
-- PNG/JPEG: vista de imagen. Máximo 40 megapíxeles para limitar memoria de decodificación; reducir una imagen mayor antes de abrirla.
-- TXT/Markdown: texto literal UTF-8; lectura de hasta 1 MiB, con aviso de vista parcial. Los textos grandes se recorren en partes de hasta 32.768 caracteres para evitar dibujar todo de golpe. Las líneas sin espacios pueden desplazarse horizontalmente dentro del visor. El enlace de apertura utiliza también la copia limitada a 1 MiB. No se ejecuta HTML.
-- Hasta 50 MiB por archivo; la interfaz usa la etiqueta habitual «50 MB».
-- DOCX, extracción y persistencia pertenecen a fases posteriores. No se inspecciona todavía el número de páginas.
-- Un error conserva el archivo actual. Quitar/reemplazar revoca las URLs temporales. Recargar borra la selección.
-- «Probar con un ejemplo» genera un TXT sintético en el navegador; no descarga contenido remoto.
+```powershell
+node scripts/verify-persistence.mjs
+```
 
-## Documentación y Git
+Informes generados: `playwright-report/` y `test-results/report.json`. Capturas en `.impeccable/review/`. Todo está excluido de Git. Los errores de red de biblioteca conservan la previsualización local y permiten reintentar.
 
-[Requisitos](doc/PRD.md), [arquitectura](doc/ARQUITEC.md), [fases](doc/FASES.md) y [tareas de fase 1](doc/FASE-01-TAREAS.md).
+## Formatos y recursos
 
-Commits semánticos en inglés y una rama por fase. No se han configurado remotos. Secretos, documentos del usuario, modelos y artefactos de prueba/construcción están excluidos del repositorio. No introducir muestras privadas en `public/` o `src/`, que forman parte de la distribución.
+- PDF: visor nativo y apertura alternativa; su funcionamiento depende del navegador.
+- PNG/JPEG: vista de imagen. La vista local limita a 40 megapíxeles; el renderizado de originales guardados pertenece al navegador.
+- TXT/Markdown: texto literal UTF-8, sin HTML ejecutable. Lectura y vista limitada al primer 1 MiB; textos grandes se recorren en partes de 32.768 caracteres. Descargar un documento guardado recupera el original completo.
+- DOCX: guardar primero, luego convertir localmente texto y tablas bajo demanda. La vista no reproduce la paginación de Word ni muestra sus imágenes. ZIP expandido limitado a 20 MiB y 1.000 entradas; conversión única con timeout de 20 s y heap de trabajador de 64 MiB. Vista limitada a 5.000 nodos, profundidad 50, 1 MiB de caracteres totales y 32.768 por nodo de texto, con aviso explícito si es parcial. Descargar conserva el original completo.
+- Hasta 50 MiB por archivo, sin copiar toda la carga a un buffer del servidor. Dos cargas simultáneas como máximo; una conversión DOCX a la vez. Un exceso produce un error recuperable.
+- SHA-256 identifica duplicados; una segunda carga no sobrescribe el documento ni su sensibilidad. El nombre original es metadato, nunca una ruta de almacenamiento.
+- «Sin clasificar», «Sensible» y «No sensible» son declaraciones locales; **ninguna autoriza salida a proveedores**. No se ha implementado todavía revisión de privacidad.
 
-La fase 2 requiere nueva aprobación del usuario.
+La extensión y MIME enviados por el navegador no se consideran suficientes: el servidor verifica firmas, estructura DOCX y texto UTF-8. Esto no sustituye un antivirus ni garantiza que cualquier PDF/imagen se pueda representar. El número de páginas se inspeccionará en una fase posterior.
+
+## Documentación e historial
+
+[Requisitos](doc/PRD.md), [arquitectura](doc/ARQUITEC.md), [fases](doc/FASES.md), [plan de fase 2](doc/FASE-02-TAREAS.md) y [resultados de fase 2](doc/FASE-02-RESULTADOS.md).
+
+Commits semánticos en inglés, una rama por fase y ninguna publicación remota. Secretos, documentos reales, datos de PostgreSQL, modelos y artefactos de construcción/prueba están excluidos. No incluir muestras privadas en `public/`, `src/` ni fixtures: esos archivos forman parte del código distribuido.
+
+La fase 3 necesita nueva aprobación del usuario.

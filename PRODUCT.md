@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Confirmed by the user: React, TypeScript and Vite; NestJS for the future API; Python for future OCR/privacy jobs; PostgreSQL with pgvector. Docker Compose packages each component when its phase introduces it.
+Confirmed by the user: React, TypeScript and Vite; NestJS for the local API; Python for future OCR/privacy jobs; PostgreSQL with pgvector. Docker Compose packages each component when its phase introduces it.
 
 ## Users
 
@@ -16,24 +16,24 @@ One person working locally on Windows with 8 GB RAM and 2 GB VRAM, while using o
 
 ## Product Purpose
 
-Inspect documents, then eventually ask questions grounded in selected sources with verifiable citations. Phase 1 only selects and previews one local file.
+Inspect documents, then eventually ask questions grounded in selected sources with verifiable citations. Phases 1–2 select and preview files and explicitly save them in a persistent local library.
 
 ## Operating Context
 
-Files are selected by button or dragged onto the page. PDF, PNG, JPEG, TXT and Markdown are previewed locally. DOCX arrives in phase 2. No network upload, account, database, OCR or chat in phase 1.
+Files are selected by button or dragged onto the page. PDF, PNG, JPEG, TXT and Markdown are previewed locally. DOCX text and tables are converted locally after explicit saving. Local NestJS and PostgreSQL store metadata and originals; no external provider, OCR or chat is implemented.
 
 ## Capabilities and Constraints
 
-50 MB per file; plain-text previews read at most 1 MiB. Invalid replacements preserve the previous selection. Canceling the picker preserves the current file. Replacing/removing a preview releases its object URL. Do not retain files after reload. Docker and native execution both need verification.
+50 MB per file; plain-text previews read at most 1 MiB. Invalid replacements preserve the previous selection. Canceling the picker preserves the current file. Replacing/removing a preview releases its object URL. Save only on explicit action; saved originals and sensitivity survive reload/restart. Sensitivity does not authorize external transfer. Docker and native execution both need verification.
 
 ## Evidence on Hand
 
-Product requirements in doc/PRD.md, architecture in doc/ARQUITEC.md, and approved phase 1 scope in doc/FASES.md. No brand assets or visual references have been supplied. No production performance has been measured.
+Product requirements in doc/PRD.md, architecture in doc/ARQUITEC.md, and approved phases 1–2 scope in doc/FASES.md. No brand assets or visual references have been supplied. Production Docker measurements and limitations are recorded in doc/FASE-02-RESULTADOS.md.
 
 ## Product Principles
 
 - Keep the first task small, obvious and reversible.
-- Keep file contents on the device during phase 1.
+- Keep file contents on the device; saving uses the local service.
 - Prefer bounded memory and direct interaction over decorative complexity.
 - Show unsupported formats and partial previews honestly.
 - Stop for review after each phase.

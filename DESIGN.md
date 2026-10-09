@@ -58,6 +58,11 @@ components:
     textColor: "{colors.muted}"
     rounded: "{rounded.compact}"
     padding: "8px 12px"
+  sensitivity-select:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    padding: "10px 12px"
 ---
 
 # Design System: DocuExtractoChat
@@ -68,7 +73,7 @@ components:
 
 A pale blue work surface, deep navy ink and cobalt actions make a small, practical document tool. Public Sans provides the same readable voice for controls and document text. Ruled white panels distinguish tools from evidence without ornamental depth.
 
-This record derives from the current implementation and its desktop, selected-file, mobile and native-PDF renders. The code-led visual direction is provisional: no user-approved comp or established brand assets exist. This describes the built world; future capabilities must not be inferred from it.
+This record derives from the phase 2 implementation and its desktop library, mobile library and native-PDF renders. The code-led visual direction is provisional: no user-approved comp or established brand assets exist. The library extends the same inspection desk; future capabilities must not be inferred from it.
 
 **Key Characteristics:**
 
@@ -147,7 +152,11 @@ The phase label is quiet outlined metadata, with muted text and compact corners.
 
 ### Cards / Containers
 
-Working containers use white surfaces, fine borders and no shadows. Larger container corners are softer than control corners. Interior padding commonly uses the panel step. Avoid treating every line of supporting copy as a separate card.
+Working containers use white surfaces, fine borders and no shadows. Larger container corners are softer than control corners. Interior padding commonly uses the panel step. Saved-document rows share a ruled container rather than separate cards; filenames lead, with subdued format, size, sensitivity and date beneath.
+
+### Inputs / Fields
+
+Native selects use white fill, a fine cool border, control corners and a minimum height of 44px. A visible label sits above the field and supporting explanation below. Focus retains the cobalt outline; controls disabled during work remain visibly muted. Sensitivity is classification, never external-transfer approval.
 
 ### File Drop Target
 
@@ -159,11 +168,11 @@ A compact symbol, single-line ellipsized filename, secondary format/size metadat
 
 ### Preview and Feedback
 
-Toolbar, content and footer remain distinct through fine rules. Text is shown as original text; image content fits its viewport; PDF chrome belongs to the browser and is not part of this design system. Errors use pale red with dark red text, and partial previews use a pale blue notice. Feedback appears in context and remains explicit.
+Toolbar, content and footer remain distinct through fine rules. Plain text stays original; locally converted DOCX text and tables use the same reading surface with ruled cells and an explicit fidelity notice. Image content fits its viewport; PDF chrome belongs to the browser and is not part of this design system. Errors and deletion confirmation use pale red with dark red text; partial previews use a pale blue notice. Feedback appears in context and remains explicit.
 
 ### Navigation
 
-There is no global navigation menu in the current build. Text-part navigation is a bordered, sticky control row with clear previous/next buttons and disabled end states.
+There is no global navigation menu. Text-part navigation is a bordered, sticky control row; library pagination uses text actions and a centered page count. Both expose previous/next controls and disabled end states. Library actions wrap beneath metadata on mobile. Delete opens an inline confirmation with cancellation and an explicit destructive action.
 
 ## Do's and Don'ts
 

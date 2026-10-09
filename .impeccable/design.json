@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-09T18:38:08.164Z",
+  "generatedAt": "2026-10-09T20:01:03Z",
   "title": "Design System: DocuExtractoChat",
   "extensions": {
     "colorMeta": {
@@ -128,7 +128,7 @@
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Original plain-text evidence."
+        "purpose": "Original plain text and locally converted DOCX evidence."
       },
       "label": {
         "displayName": "Label",
@@ -171,9 +171,9 @@
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Supporting action in preview failure.",
-      "html": "<a class=\"ds-secondary\" href=\"#archivo\">Abrir archivo<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14 M14 7l5 5-5 5\"/></svg></a>",
-      "css": ".ds-secondary{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;font-size:12px;font-weight:550;border:0;border-radius:7px;padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:16px;cursor:pointer;background:#e8edff;color:var(--accent,#273fc8);text-decoration:none}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}"
+      "description": "Supporting actions, including explicit local saving and retry.",
+      "html": "<button class=\"ds-secondary\">Guardar en biblioteca</button>",
+      "css": ".ds-secondary{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;font-size:12px;font-weight:550;border:0;border-radius:7px;padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:16px;cursor:pointer;background:#e8edff;color:var(--accent,#273fc8);text-decoration:none}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}.ds-secondary:disabled{opacity:.55;cursor:default}"
     },
     {
       "name": "Icon Button",
@@ -188,7 +188,7 @@
       "kind": "chip",
       "refersTo": "phase-label",
       "description": "Noninteractive phase metadata.",
-      "html": "<span class=\"ds-phase\">Fase 1 · Vista previa</span>",
+      "html": "<span class=\"ds-phase\">Fase 2 · Biblioteca local</span>",
       "css": ".ds-phase{display:inline-block;font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;color:var(--muted,#596581);font-size:11px;white-space:nowrap;padding:8px 12px;border:1px solid #ccd4e7;border-radius:5px}"
     },
     {
@@ -211,11 +211,26 @@
       "description": "Bounded plain-text display navigation.",
       "html": "<nav class=\"ds-text-nav\" aria-label=\"Partes del texto\"><button disabled>Anterior</button><span role=\"status\">Parte 1 de 2</span><button>Siguiente</button></nav>",
       "css": ".ds-text-nav{font-family:\"Public Sans Variable\", ui-sans-serif, system-ui, sans-serif;color:var(--ink,#202b4b);display:flex;align-items:center;justify-content:space-between;gap:12px;background:white;padding:12px 0;border-bottom:1px solid var(--line,#dce1ed);font-size:12px}.ds-text-nav button{font:inherit;border:1px solid var(--line,#dce1ed);border-radius:5px;padding:9px 12px;background:white;color:var(--accent,#273fc8);cursor:pointer}.ds-text-nav button:disabled{color:var(--muted,#596581);opacity:.55;cursor:default}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-icon:focus-visible,.ds-text-nav button:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}"
+    },
+    {
+      "name": "Sensitivity Field",
+      "kind": "input",
+      "refersTo": "sensitivity-select",
+      "description": "Native classification select with an explicit transfer-permission boundary.",
+      "html": "<div class=\"ds-sensitivity\"><label for=\"ds-sensitivity\">Sensibilidad del documento</label><select id=\"ds-sensitivity\"><option>Sin clasificar</option><option>Sensible</option><option>No sensible</option></select><p>Tu clasificación no autoriza envíos a proveedores.</p></div>",
+      "css": ".ds-sensitivity{font-family:\"Public Sans Variable\",ui-sans-serif,system-ui,sans-serif;color:var(--ink,#202b4b);display:grid;gap:8px}.ds-sensitivity label{font-size:12px;font-weight:550}.ds-sensitivity select{font:inherit;width:100%;min-height:44px;padding:10px 12px;color:var(--ink,#202b4b);background:white;border:1px solid var(--line,#dce1ed);border-radius:7px}.ds-sensitivity select:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}.ds-sensitivity p{font-size:12px;line-height:1.7;color:var(--muted,#596581);margin:0}"
+    },
+    {
+      "name": "Saved Document Row",
+      "kind": "custom",
+      "description": "Filename-led library entry with subdued metadata and wrapping open, download and delete actions.",
+      "html": "<div class=\"ds-library-row\"><div class=\"ds-library-info\"><button class=\"ds-document-name\" title=\"ejemplo.txt\">ejemplo.txt</button><p>TXT · 348 B · Sin clasificar · 9 oct 2026</p></div><div class=\"ds-library-actions\"><button class=\"ds-library-action\">Abrir</button><a class=\"ds-library-action\" href=\"#original\" download>Descargar</a><button class=\"ds-library-action ds-danger\">Eliminar</button></div></div>",
+      "css": ".ds-library-row{font-family:\"Public Sans Variable\",ui-sans-serif,system-ui,sans-serif;color:var(--ink,#202b4b);display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding:16px 24px;border-bottom:1px solid var(--line,#dce1ed);background:var(--surface,#fff)}.ds-library-info{flex:1;min-width:0}.ds-document-name{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:none;border:0;padding:6px 0;color:var(--ink,#202b4b);font-family:inherit;font-size:13px;font-weight:600;text-align:left;min-height:36px;cursor:pointer}.ds-library-info p{margin:2px 0 0;font-size:12px;line-height:1.65;color:var(--muted,#596581);font-variant-numeric:tabular-nums}.ds-library-actions{display:flex;flex-wrap:wrap}.ds-library-action{display:inline-flex;align-items:center;justify-content:center;background:none;border:0;min-height:44px;padding:10px 12px;color:var(--accent,#273fc8);font-family:inherit;font-size:12px;text-decoration:none;border-radius:5px;cursor:pointer}.ds-danger{color:#8a282d}.ds-library-action:hover:not(:disabled),.ds-document-name:hover{text-decoration:underline;text-underline-offset:4px}.ds-library-action:disabled{opacity:.55;cursor:default}.ds-library-action:focus-visible,.ds-document-name:focus-visible{outline:3px solid var(--focus,#2740ca);outline-offset:5px}@media(max-width:720px){.ds-library-row{padding:16px 20px;flex-direction:column;align-items:stretch;gap:6px}.ds-library-actions{margin-left:-12px}}"
     }
   ],
   "narrative": {
     "northStar": "The Local Inspection Desk",
-    "overview": "A pale blue work surface, deep navy ink and cobalt actions make a small, practical document tool. Public Sans provides the same readable voice for controls and document text. Ruled white panels distinguish tools from evidence without ornamental depth.\n\nThis record derives from the current implementation and its desktop, selected-file, mobile and native-PDF renders. The code-led visual direction is provisional: no user-approved comp or established brand assets exist. This describes the built world; future capabilities must not be inferred from it.",
+    "overview": "A pale blue work surface, deep navy ink and cobalt actions make a small, practical document tool. Public Sans provides the same readable voice for controls and document text. Ruled white panels distinguish tools from evidence without ornamental depth.\n\nThis record derives from the phase 2 implementation and its desktop library, mobile library and native-PDF renders. The code-led visual direction is provisional: no user-approved comp or established brand assets exist. The library extends the same inspection desk; future capabilities must not be inferred from it.",
     "keyCharacteristics": [
       "A cool, lightly tinted ground surrounding white working surfaces.",
       "Cobalt for actions and active evidence state.",
