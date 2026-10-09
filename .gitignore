@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-test/
 coverage/
 test-results/
 playwright-report/
@@ -20,6 +21,8 @@ uploads/
 models/
 backups/
 .cache/
+apps/api/.jest-cache/
+apps/api/.test-storage-*/
 .DS_Store
 Thumbs.db
 # Local agent instructions are supplied by the workspace, not application code.

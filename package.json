@@ -3,19 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "apps/web"
+    "apps/web",
+    "apps/api"
   ],
   "engines": {
     "node": ">=24.20.0 <25"
   },
   "scripts": {
     "dev": "npm run dev --workspace @docuextractochat/web",
-    "build": "npm run build --workspace @docuextractochat/web",
-    "typecheck": "npm run typecheck --workspace @docuextractochat/web",
+    "build": "npm run build --workspace @docuextractochat/web && npm run build --workspace @docuextractochat/api",
+    "typecheck": "npm run typecheck --workspace @docuextractochat/web && npm run typecheck --workspace @docuextractochat/api",
+    "dev:api": "npm run dev --workspace @docuextractochat/api",
+    "start:api": "npm run start --workspace @docuextractochat/api",
+    "migrate": "npm run migrate --workspace @docuextractochat/api",
+    "test:api": "npm run test --workspace @docuextractochat/api",
     "preview": "npm run preview --workspace @docuextractochat/web",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "check": "npm run typecheck && npm run build && npm test"
+    "check": "npm run typecheck && npm run build && npm run test:api && npm test"
+  },
+  "overrides": {
+    "argparse": "2.0.1"
   },
   "devDependencies": {
     "@playwright/test": "1.64.0",
