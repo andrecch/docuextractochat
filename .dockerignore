@@ -10,6 +10,7 @@ tests
 playwright.config.ts
 **/node_modules
 **/dist
+**/dist-test
 **/coverage
 **/test-results
 **/playwright-report
@@ -25,3 +26,5 @@ playwright.config.ts
 **/models
 **/backups
 **/.cache
+**/.jest-cache
+**/.test-storage-*

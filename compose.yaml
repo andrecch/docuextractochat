@@ -1,24 +1,92 @@
 name: docuextractochat
 services:
-  web-preview:
-    image: docuextractochat-preview:0.1.0
+  db:
+    image: postgres:17.11-alpine
+    environment:
+      POSTGRES_USER: docuchat_owner
+      POSTGRES_DB: docuextractochat
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Create a local .env using .env.example}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Set APP_DB_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init-app-role.sh:/docker-entrypoint-initdb.d/10-app-role.sh:ro
+    command:
+      [
+        "postgres",
+        "-c",
+        "shared_buffers=64MB",
+        "-c",
+        "max_connections=20",
+        "-c",
+        "work_mem=4MB",
+      ]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docuchat_owner -d docuextractochat"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    mem_limit: 512m
+    cpus: 0.5
+    pids_limit: 64
+    restart: unless-stopped
+    logging: &logs
+      driver: json-file
+      options: { max-size: "5m", max-file: "2" }
+  migrate:
+    image: docuextractochat-app:0.2.0
     build:
       context: .
-      dockerfile: apps/web/Dockerfile
-    ports:
-      - "127.0.0.1:8080:8080"
-    mem_limit: 64m
+      dockerfile: apps/api/Dockerfile
+    command: ["node", "apps/api/dist/src/database/migrate.js"]
+    environment:
+      DATABASE_URL: postgres://docuchat_owner:${POSTGRES_PASSWORD}@db:5432/docuextractochat
+    depends_on:
+      db: { condition: service_healthy }
+    mem_limit: 256m
     cpus: 0.5
-    pids_limit: 32
     init: true
     read_only: true
-    tmpfs:
-      - /var/cache/nginx:size=8m
-      - /var/run:size=1m
-      - /tmp:size=4m
+    tmpfs: ["/tmp:size=16m"]
+    restart: "no"
+    logging: *logs
+  app:
+    image: docuextractochat-app:0.2.0
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      DATABASE_URL: postgres://docuchat_app:${APP_DB_PASSWORD}@db:5432/docuextractochat
+      STORAGE_DIR: /data/documents
+      WEB_DIST_DIR: /app/apps/web/dist
+      HOST: 0.0.0.0
+      PORT: "3000"
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=256
+    ports: ["127.0.0.1:8080:3000"]
+    volumes: ["documents-data:/data"]
+    depends_on:
+      db: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    mem_limit: 512m
+    cpus: 0.75
+    pids_limit: 64
+    init: true
+    read_only: true
+    tmpfs: ["/tmp:size=32m"]
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "5m"
-        max-file: "2"
+    logging: *logs
+volumes:
+  postgres-data:
+  documents-data:
