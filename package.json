@@ -1,0 +1,24 @@
+{
+  "name": "docuextractochat",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=24.20.0 <25"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace @docuextractochat/web",
+    "build": "npm run build --workspace @docuextractochat/web",
+    "typecheck": "npm run typecheck --workspace @docuextractochat/web",
+    "preview": "npm run preview --workspace @docuextractochat/web",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "check": "npm run typecheck && npm run build && npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "prettier": "3.9.9"
+  }
+}
