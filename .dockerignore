@@ -1,0 +1,27 @@
+# Keep private files and tooling outside the build context.
+.git
+.agents
+.impeccable
+doc
+PRODUCT.md
+DESIGN.md
+README.md
+tests
+playwright.config.ts
+**/node_modules
+**/dist
+**/coverage
+**/test-results
+**/playwright-report
+**/.playwright-cli
+**/.env
+**/.env.*
+**/*.local
+**/*.log
+**/.venv
+**/__pycache__
+**/data
+**/uploads
+**/models
+**/backups
+**/.cache

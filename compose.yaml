@@ -1,0 +1,24 @@
+name: docuextractochat
+services:
+  web-preview:
+    image: docuextractochat-preview:0.1.0
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    mem_limit: 64m
+    cpus: 0.5
+    pids_limit: 32
+    init: true
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:size=8m
+      - /var/run:size=1m
+      - /tmp:size=4m
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
