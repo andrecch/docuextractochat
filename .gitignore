@@ -1,0 +1,26 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.playwright-cli/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/config.local.json
+.env
+.env.*
+!.env.example
+*.local
+*.log
+.venv/
+__pycache__/
+*.pyc
+data/
+uploads/
+models/
+backups/
+.cache/
+.DS_Store
+Thumbs.db
+# Local agent instructions are supplied by the workspace, not application code.
+.agents/
